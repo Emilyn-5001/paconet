@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAÇONET</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">PAÇONET</div>
+
+    <div class="header-icon">
+        <img src="images/tradicional.png" alt="">
+    </div>
+</header>
+
+<div id="pacoca-container"></div>
+
+<main>
+
+    <div class="login-box">
+
+        <h1>Bem-vindo à PAÇONET</h1>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="Digite seu e-mail">
+
+        <input
+            id="senha"
+            type="password"
+            placeholder="Digite sua senha">
+
+        <button id="entrar">
+            Entrar
+        </button>
+
+        <div class="links">
+            <a href="#">Esqueceu sua senha?</a>
+            <a href="#">Criar conta</a>
+        </div>
+
+    </div>
+
+</main>
+
+<div id="modal" class="hidden">
+
+    <div class="modal-content">
+
+        <span id="fechar">&times;</span>
+
+        <img id="modal-img">
+
+        <h2 id="modal-title"></h2>
+
+        <p id="ingredientes"></p>
+
+        <p id="preparo"></p>
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
