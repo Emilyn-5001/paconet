@@ -103,7 +103,7 @@ const pacocas = [];
 
 const ground = Bodies.rectangle(
 window.innerWidth/2,
-window.innerHeight-40,
+window.innerHeight-120,
 window.innerWidth,
 80,
 {
@@ -137,6 +137,49 @@ leftWall,
 rightWall
 ]);
 
+const loginBox = document.querySelector(".login-box");
+const r = loginBox.getBoundingClientRect();
+
+const bloqueioLogin = Bodies.rectangle(
+    r.left + r.width / 2,
+    r.top + r.height + 80,
+    r.width + 300,
+    40,
+    {
+        isStatic: true
+    }
+);
+
+World.add(world, bloqueioLogin);
+
+const paredeEsquerdaLogin = Bodies.rectangle(
+    r.left - 100,
+    r.top + r.height / 2,
+    40,
+    r.height + 300,
+    {
+        isStatic:true
+    }
+);
+
+const paredeDireitaLogin = Bodies.rectangle(
+    r.right + 100,
+    r.top + r.height / 2,
+    40,
+    r.height + 300,
+    {
+        isStatic:true
+    }
+);
+
+World.add(world,[
+    paredeEsquerdaLogin,
+    paredeDireitaLogin
+]);
+
+const login = document.querySelector(".login-box");
+const rect = login.getBoundingClientRect();
+
 function criarPacoca(){
 
 if(pacocas.length >= 40){
@@ -156,15 +199,25 @@ login.getBoundingClientRect();
 
 let x;
 
-do{
+const margem = 450;
 
-x = Math.random() * (window.innerWidth - 220);
+const ladoEsquerdo =
+Math.random() < 0.5;
+
+if(ladoEsquerdo){
+
+    x = Math.random() *
+    Math.max(50, rect.left - margem);
+
+}else{
+
+    x =
+    rect.right +
+    margem +
+    Math.random() *
+    (window.innerWidth - rect.right - margem - 50);
 
 }
-while(
-x > rect.left - 220 &&
-x < rect.right + 220
-);
 
 const sabor =
 sabores[
@@ -176,10 +229,10 @@ Math.random()*sabores.length
 const body = Bodies.circle(
 x,
 -150,
-80,
+55,
 {
-restitution:0.4,
-friction:0.7,
+restitution:0.3,
+friction:0.9,
 density:0.002
 }
 );
@@ -217,36 +270,25 @@ ${sabor.preparo}
 
 img.addEventListener("mousemove",(e)=>{
 
-tooltip.style.left =
-(e.clientX + 15) + "px";
+    let x = e.clientX + 20;
+    let y = e.clientY + 20;
 
-tooltip.style.top =
-(e.clientY + 15) + "px";
+    if(x + 300 > window.innerWidth){
+        x = e.clientX - 300;
+    }
 
-});
+    if(y + 180 > window.innerHeight){
+        y = e.clientY - 180;
+    }
 
-img.addEventListener("mouseleave",()=>{
-
-tooltip.style.display = "none";
+    tooltip.style.left = x + "px";
+    tooltip.style.top = y + "px";
 
 });
 
 img.addEventListener("click",()=>{
 
-modal.classList.remove("hidden");
-
-modalImg.src = sabor.imagem;
-
-modalTitle.innerText =
-sabor.nome;
-
-ingredientes.innerText =
-"Ingredientes: " +
-sabor.ingredientes;
-
-preparo.innerText =
-"Preparo: " +
-sabor.preparo;
+    alert("CLICOU NA PAÇOCA");
 
 });
 
