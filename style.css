@@ -107,7 +107,6 @@ main{
 #pacoca-container{
     position:absolute;
     inset:0;
-    pointer-events:none;
 }
 
 .pacoca{
@@ -127,9 +126,6 @@ main{
     z-index:10;
 }
 
-.pacoca:hover{
-    transform:scale(1.15);
-}
 #modal{
     position:fixed;
     inset:0;
@@ -185,4 +181,50 @@ main{
     width:90%;
 }
 
+#tooltip{
+    position:fixed;
+    display:none;
+    background:white;
+    border:3px solid #d62828;
+    border-radius:12px;
+    padding:15px;
+    max-width:280px;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+    z-index:99999;
+    pointer-events:none;
+}
+
+#tooltip h3{
+    color:#d62828;
+    margin-bottom:10px;
+}
+
+#tooltip{
+    position:fixed;
+    display:none;
+
+    background:white;
+
+    border:3px solid #d62828;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    max-width:280px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+
+    z-index:99999;
+
+    pointer-events:none;
+}
+
+#tooltip h3{
+    color:#d62828;
+    margin-bottom:10px;
+}
+
+#tooltip p{
+    margin-top:8px;
 }

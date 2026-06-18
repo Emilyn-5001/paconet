@@ -50,8 +50,7 @@ preparo:"Recheio premium."
 {
 nome:"Banana",
 imagem:"images/banana.png",
-ingredientes:"Amendoim e banana."
-,
+ingredientes:"Amendoim e banana.",
 preparo:"Receita artesanal."
 },
 {
@@ -66,6 +65,7 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Runner = Matter.Runner;
+const Body = Matter.Body;
 
 const engine = Engine.create();
 const world = engine.world;
@@ -96,11 +96,14 @@ document.getElementById("preparo");
 const fechar =
 document.getElementById("fechar");
 
+const tooltip =
+document.getElementById("tooltip");
+
 const pacocas = [];
 
 const ground = Bodies.rectangle(
-window.innerWidth / 2,
-window.innerHeight - 40,
+window.innerWidth/2,
+window.innerHeight-40,
 window.innerWidth,
 80,
 {
@@ -110,7 +113,7 @@ isStatic:true
 
 const leftWall = Bodies.rectangle(
 -40,
-window.innerHeight / 2,
+window.innerHeight/2,
 80,
 window.innerHeight,
 {
@@ -119,8 +122,8 @@ isStatic:true
 );
 
 const rightWall = Bodies.rectangle(
-window.innerWidth + 40,
-window.innerHeight / 2,
+window.innerWidth+40,
+window.innerHeight/2,
 80,
 window.innerHeight,
 {
@@ -128,7 +131,7 @@ isStatic:true
 }
 );
 
-World.add(world, [
+World.add(world,[
 ground,
 leftWall,
 rightWall
@@ -155,18 +158,20 @@ let x;
 
 do{
 
-x = Math.random() * (window.innerWidth - 200);
+x = Math.random() * (window.innerWidth - 220);
 
 }
 while(
-x > rect.left - 200 &&
-x < rect.right + 200
+x > rect.left - 220 &&
+x < rect.right + 220
 );
 
 const sabor =
-sabores[Math.floor(
-Math.random() * sabores.length
-)];
+sabores[
+Math.floor(
+Math.random()*sabores.length
+)
+];
 
 const body = Bodies.circle(
 x,
@@ -174,7 +179,7 @@ x,
 80,
 {
 restitution:0.4,
-friction:0.5,
+friction:0.7,
 density:0.002
 }
 );
@@ -188,10 +193,43 @@ img.src = sabor.imagem;
 
 img.classList.add("pacoca");
 
-img.style.width = "160px";
-img.style.height = "160px";
-
 container.appendChild(img);
+
+img.addEventListener("mouseenter",()=>{
+
+tooltip.style.display = "block";
+
+tooltip.innerHTML = `
+<h3>${sabor.nome}</h3>
+
+<p>
+<strong>Ingredientes:</strong><br>
+${sabor.ingredientes}
+</p>
+
+<p>
+<strong>Preparo:</strong><br>
+${sabor.preparo}
+</p>
+`;
+
+});
+
+img.addEventListener("mousemove",(e)=>{
+
+tooltip.style.left =
+(e.clientX + 15) + "px";
+
+tooltip.style.top =
+(e.clientY + 15) + "px";
+
+});
+
+img.addEventListener("mouseleave",()=>{
+
+tooltip.style.display = "none";
+
+});
 
 img.addEventListener("click",()=>{
 
@@ -224,18 +262,14 @@ function atualizar(){
 
 pacocas.forEach(item=>{
 
-const body = item.body;
+item.element.style.left =
+(item.body.position.x - 80) + "px";
 
-const img = item.element;
+item.element.style.top =
+(item.body.position.y - 80) + "px";
 
-img.style.left =
-(body.position.x - 80) + "px";
-
-img.style.top =
-(body.position.y - 80) + "px";
-
-img.style.transform =
-`rotate(${body.angle}rad)`;
+item.element.style.transform =
+`rotate(${item.body.angle}rad)`;
 
 });
 
@@ -263,9 +297,7 @@ fechar.addEventListener(
 "click",
 ()=>{
 
-modal.classList.add(
-"hidden"
-);
+modal.classList.add("hidden");
 
 }
 );
@@ -276,9 +308,7 @@ window.addEventListener(
 
 if(e.target === modal){
 
-modal.classList.add(
-"hidden"
-);
+modal.classList.add("hidden");
 
 }
 
@@ -293,7 +323,7 @@ document
 
 pacocas.forEach(item=>{
 
-Matter.Body.applyForce(
+Body.applyForce(
 item.body,
 item.body.position,
 {
@@ -303,21 +333,6 @@ y:-0.08
 );
 
 });
-
-}
-);
-
-window.addEventListener(
-"resize",
-()=>{
-
-Matter.Body.setPosition(
-ground,
-{
-x:window.innerWidth/2,
-y:window.innerHeight-40
-}
-);
 
 }
 );
